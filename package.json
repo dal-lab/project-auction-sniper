@@ -1,0 +1,25 @@
+{
+  "name": "project-auction-sniper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "codeceptjs run --steps"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hannut91/project-auction-sniper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hannut91/project-auction-sniper/issues"
+  },
+  "homepage": "https://github.com/hannut91/project-auction-sniper#readme",
+  "devDependencies": {
+    "codeceptjs": "^2.3.2",
+    "puppeteer": "^1.20.0",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.4"
+  }
+}
