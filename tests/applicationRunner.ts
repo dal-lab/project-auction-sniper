@@ -2,18 +2,19 @@ import * as CodeceptJS from 'codeceptjs';
 import FakeAuctionServer from './fakeAuctionServer';
 
 export default class ApplicationRunner {
-  constructor(I?: CodeceptJS.I) {
-    // I.amOnPage('http://localhost:8080/');
-    // I.see('Status: Joining');
-    
-    // TODO:
+  I: CodeceptJS.I;
+
+  constructor(I: CodeceptJS.I) {
+    this.I = I;
+
+    this.I.amOnPage('http://localhost:8080/');
   }
 
   startBiddingIn(auction: FakeAuctionServer) {
-    // TODO:
+    this.I.see('Joining')
   }
 
   showsSniperHasLostAuction() {
-    // TODO
+    this.I.see('Lost')
   }
 }

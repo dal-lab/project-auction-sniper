@@ -5,13 +5,19 @@
     "strict": true,
     "sourceMap": true,
     "jsx": "react",
+    "allowSyntheticDefaultImports": true,
     "types": [
       "./tests/typings/steps"
     ],
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "lib": [
+      "es6",
+      "dom"
+    ]
   },
   "include": [
     "src"
   ],
-  "compileOnSave": false
+  "compileOnSave": false,
+  
 }

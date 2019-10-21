@@ -29,6 +29,7 @@
     "@types/react-dom": "^16.9.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "sendbird": "^3.0.108",
     "ts-loader": "^6.2.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9",
