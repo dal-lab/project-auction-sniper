@@ -4,14 +4,16 @@ exports.config = {
   helpers: {
     Puppeteer: {
       url: 'http://localhost',
-      show: true
-    }
+      show: true,
+      waitForAction: 30 * 1000,
+      waitForTimeout: 30 * 1000,
+    },
   },
   include: {
-    I: './steps_file.js'
+    I: './steps_file.js',
   },
   bootstrap: null,
   mocha: {},
   name: 'project-auction-sniper',
-  require: ["ts-node/register"]
-}
+  require: ['ts-node/register'],
+};

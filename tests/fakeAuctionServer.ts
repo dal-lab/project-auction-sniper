@@ -1,69 +1,40 @@
-import SendBird from 'sendbird';
+import chatService from '../src/utils/chatService';
 
-const APP_ID = "";
-const USER_ID = "sniper";
+import assert from 'assert';
+import waitForExpect from 'wait-for-expect';
+
+const APP_ID = process.env.SENDBIRD_APP_ID || '';
+const USER_ID = 'auction';
+const CHANNEL_URL = process.env.SENDBIRD_CHANNEL_URL || '';
+const CHANNEL_HANDLER_ID = 'test';
 
 export default class FakeAuctionServer {
+  entered = false;
+
   constructor(itemId: string) {
   }
 
   async connect() {
-    const sb = new SendBird({ appId: APP_ID });
-
-    const user = await new Promise((resolve, reject) => {
-      sb.connect(USER_ID, (user, error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve(user);
-      });
-    })
-
-    const openChannel = await new Promise<SendBird.OpenChannel>((resolve, reject) => {
-      sb.OpenChannel.createChannel((openChannel, error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve(openChannel);
-      });
-    })
-
-    const response = await new Promise((resolve, reject) => {
-      openChannel.enter((response, error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve(response);
-      });
+    await chatService.connect(APP_ID, USER_ID);
+    await chatService.enter(CHANNEL_URL);
+    chatService.addListener(CHANNEL_HANDLER_ID, {
+      onUserEntered: () => {
+        this.entered = true;
+      }
     });
-
-    const message = await new Promise((resolve, reject) => {
-      openChannel.sendUserMessage(
-        "Hello", "", "", (message, error) => {
-          if (error) {
-            reject(error);
-            return;
-          }
-          resolve(message);
-        });
-    });
-
-    console.log(message);
   }
 
   async startSellingItem() {
-    // TODO
     await this.connect();
   }
 
-  hasReceivedJoinRequestFromSniper() {
-    // TODO
+  async hasReceivedJoinRequestFromSniper() {
+    await waitForExpect(() => {
+      assert.equal(this.entered, true);
+    });
   }
 
-  announceClosed() {
-    // TODO
+  async announceClosed() {
+    await chatService.disconnect();
   }
 }
