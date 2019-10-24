@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es5", 
+    "target": "es5",
     "module": "commonjs",
     "strict": true,
     "sourceMap": true,
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "types": [
+      "node",
+      "pify",
       "./tests/typings/steps"
     ],
     "esModuleInterop": true,
@@ -18,6 +20,5 @@
   "include": [
     "src"
   ],
-  "compileOnSave": false,
-  
+  "compileOnSave": false
 }

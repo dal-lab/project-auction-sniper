@@ -1,4 +1,5 @@
 import * as CodeceptJS from 'codeceptjs';
+
 import FakeAuctionServer from './fakeAuctionServer';
 
 export default class ApplicationRunner {
@@ -11,10 +12,10 @@ export default class ApplicationRunner {
   }
 
   startBiddingIn(auction: FakeAuctionServer) {
-    this.I.see('Joining')
+    this.I.see('Joining');
   }
 
   showsSniperHasLostAuction() {
-    this.I.see('Lost')
+    this.I.see('Lost');
   }
 }
