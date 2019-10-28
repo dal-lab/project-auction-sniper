@@ -18,6 +18,17 @@ SENDBIRD_CHANNEL_URL=<Your Channel URL>
 
 ## Run tests
 
+### E2E Test
+
 ```bash
+npm start
+
+# in a new tab
 npm test -- --verbose
+```
+
+### Unit Test
+
+```bash
+npx jest
 ```
