@@ -9,12 +9,12 @@ const APP_ID = process.env.SENDBIRD_APP_ID || '';
 const USER_ID = 'sniper';
 const CHANNEL_URL = process.env.SENDBIRD_CHANNEL_URL || '';
 
-const connect = async () => {
+const connect = async (): Promise<void> => {
   await chatService.connect(APP_ID, USER_ID);
   await chatService.enter(CHANNEL_URL);
 }
 
-const App = () => {
+const App = (): JSX.Element => {
   useEffect(() => {
     connect();
   }, []);
