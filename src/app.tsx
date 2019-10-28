@@ -3,15 +3,16 @@ import * as ReactDOM from 'react-dom';
 
 import { useEffect } from 'react';
 
-import chatService from './utils/chatService';
+import { ChatService } from './utils/chatService';
 
-const APP_ID = process.env.SENDBIRD_APP_ID || '';
-const USER_ID = 'sniper';
-const CHANNEL_URL = process.env.SENDBIRD_CHANNEL_URL || '';
+const KEY = process.env.PUSHER_KEY || '';
+const CLUSTER = process.env.PUSHER_CLUSTER || '';
+const AUTH_ENDPOINT = process.env.PUSHER_AUTH_ENDPOINT || '';
+const CHANNEL_ID = process.env.PUSHER_CHANNEL_ID || '';
 
-const connect = async (): Promise<void> => {
-  await chatService.connect(APP_ID, USER_ID);
-  await chatService.enter(CHANNEL_URL);
+const connect = (): void => {
+  const chatService = new ChatService(KEY, CLUSTER, AUTH_ENDPOINT);
+  chatService.enter(CHANNEL_ID);
 }
 
 const App = (): JSX.Element => {

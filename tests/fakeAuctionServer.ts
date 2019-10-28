@@ -1,31 +1,32 @@
-import chatService from '../src/utils/chatService';
+import { ChatService } from '../src/utils/chatService';
 
 import assert from 'assert';
 import waitForExpect from 'wait-for-expect';
 
-const APP_ID = process.env.SENDBIRD_APP_ID || '';
-const USER_ID = 'auction';
-const CHANNEL_URL = process.env.SENDBIRD_CHANNEL_URL || '';
-const CHANNEL_HANDLER_ID = 'test';
+const KEY = process.env.PUSHER_KEY || '';
+const CLUSTER = process.env.PUSHER_CLUSTER || '';
+const AUTH_ENDPOINT = process.env.PUSHER_AUTH_ENDPOINT || '';
+const CHANNEL_ID = process.env.PUSHER_CHANNEL_ID || '';
 
 export default class FakeAuctionServer {
+  chatService?: ChatService;
   entered = false;
 
   constructor(itemId: string) {
   }
 
-  async connect() {
-    await chatService.connect(APP_ID, USER_ID);
-    await chatService.enter(CHANNEL_URL);
-    chatService.addListener(CHANNEL_HANDLER_ID, {
-      onUserEntered: () => {
+  connect() {
+    this.chatService = new ChatService(KEY, CLUSTER, AUTH_ENDPOINT);
+    this.chatService.enter(CHANNEL_ID);
+    this.chatService.addListener({
+      'user-entered': () => {
         this.entered = true;
-      }
+      },
     });
   }
 
   async startSellingItem() {
-    await this.connect();
+    this.connect();
   }
 
   async hasReceivedJoinRequestFromSniper() {
@@ -35,6 +36,6 @@ export default class FakeAuctionServer {
   }
 
   async announceClosed() {
-    await chatService.disconnect();
+    this.chatService!.disconnect();
   }
 }

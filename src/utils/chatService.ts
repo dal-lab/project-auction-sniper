@@ -1,36 +1,39 @@
-import SendBird from 'sendbird';
+import Pusher from 'pusher-js';
 
-import pify from 'pify';
-
-const PF = (context: Record<string, any>, f: Function): Function =>
-  pify(f.bind(context), { errorFirst: false });
+// Pusher.logToConsole = true;
 
 export class ChatService {
-  async connect(appId: string, userId: string): Promise<void> {
-    const sb = new SendBird({ appId });
-    await PF(sb, sb.connect)(userId);
-  }
+  pusher?: Pusher.Pusher;
+  channel?: Pusher.Channel;
 
-  async disconnect(): Promise<void> {
-    const sb = SendBird.getInstance();
-    await PF(sb, sb.disconnect)();
-  }
-
-  async enter(channelUrl: string): Promise<void> {
-    const sb = SendBird.getInstance();
-    const oc = sb.OpenChannel;
-    const channel = await PF(oc, oc.getChannel)(channelUrl);
-    await PF(channel, channel.enter)();
-  }
-
-  addListener(handlerId: string, events: Record<string, Function>): void {
-    const sb = SendBird.getInstance();
-    const handler = new sb.ChannelHandler();
-    Object.entries(events).forEach(([name, f]) => {
-      Reflect.set(handler, name, f);
+  constructor(key: string, cluster: string, authEndpoint: string) {
+    this.pusher = new Pusher(key, {
+      cluster,
+      authEndpoint,
     });
-    sb.addChannelHandler(handlerId, handler);
+  }
+
+  disconnect(): void {
+    this.pusher!.disconnect();
+  }
+
+  enter(channelId: string): void {
+    this.channel = this.pusher!.subscribe(`presence-${channelId}`);
+  }
+
+  addListener(events: Record<string, Function>): void {
+    const EVENTS_MAP: Record<string, string> = {
+      'ready': 'pusher:subscription_succeeded',
+      'user-entered': 'pusher:member_added',
+    };
+
+    Object.entries(events).forEach(([name, f]) => {
+      const eventName = EVENTS_MAP[name] || `client-${name}`;
+      this.channel!.bind(eventName, (data: any) => f(data));
+    });
+  }
+
+  send(event: string, data: any = {}): void {
+    this.channel!.trigger(`client-${event}`, data);
   }
 }
-
-export default new ChatService();
