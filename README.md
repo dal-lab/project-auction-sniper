@@ -5,6 +5,7 @@
 <https://codecept.io/commands#typescript-definitions>
 
 ```bash
+mkdir ./tests/typings
 npx codeceptjs def --output ./tests/typings
 ```
 
