@@ -23,6 +23,13 @@ export class ChatService {
     await PF(channel, channel.enter)();
   }
 
+  async leave(channelUrl: string): Promise<void> {
+    const sb = SendBird.getInstance();
+    const oc = sb.OpenChannel;
+    const channel = await PF(oc, oc.getChannel)(channelUrl);
+    await PF(channel, channel.exit)();
+  }
+
   addListener(handlerId: string, events: Record<string, Function>): void {
     const sb = SendBird.getInstance();
     const handler = new sb.ChannelHandler();
