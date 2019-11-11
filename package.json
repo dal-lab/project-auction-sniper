@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "codeceptjs run --steps",
+    "test": "jest",
     "lint": "eslint --fix \"src/**\"",
     "build": "webpack -p",
     "start": "webpack-dev-server -d --content-base ./public"
@@ -21,9 +21,9 @@
   "homepage": "https://github.com/hannut91/project-auction-sniper#readme",
   "devDependencies": {
     "@types/jest": "^24.0.20",
+    "@types/puppeteer": "^1.20.2",
     "@typescript-eslint/eslint-plugin": "^2.5.0",
     "@typescript-eslint/parser": "^2.5.0",
-    "codeceptjs": "^2.3.2",
     "eslint": "^6.6.0",
     "eslint-plugin-react": "^7.16.0",
     "jest": "^24.9.0",

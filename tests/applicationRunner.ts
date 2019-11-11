@@ -1,21 +1,32 @@
-import * as CodeceptJS from 'codeceptjs';
+jest.setTimeout(10 * 1000);
+
+import waitForExpect from 'wait-for-expect';
+
+waitForExpect.defaults.timeout = 10 * 1000;
+
+import { Page } from 'puppeteer';
 
 import FakeAuctionServer from './fakeAuctionServer';
 
 export default class ApplicationRunner {
-  I: CodeceptJS.I;
+  page: Page;
 
-  constructor(I: CodeceptJS.I) {
-    this.I = I;
-
-    this.I.amOnPage('http://localhost:8080/');
+  constructor(page: Page) {
+    this.page = page;
+  }
+  
+  async startBiddingIn(auction: FakeAuctionServer) {
+    await this.page.goto('http://localhost:8080/');
+    await waitForExpect(async () => {
+      const html = await this.page.content();
+      expect(html).toContain('Joining');
+    });
   }
 
-  startBiddingIn(auction: FakeAuctionServer) {
-    this.I.see('Joining');
-  }
-
-  showsSniperHasLostAuction() {
-    this.I.see('Lost');
+  async showsSniperHasLostAuction() {
+    await waitForExpect(async () => {
+      const html = await this.page.content();
+      expect(html).toContain('Lost');
+    });
   }
 }

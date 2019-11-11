@@ -35,6 +35,7 @@ export default class FakeAuctionServer {
   }
 
   async announceClosed() {
+    await chatService.leave(CHANNEL_URL);
     await chatService.disconnect();
   }
 }
