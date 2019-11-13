@@ -9,8 +9,7 @@
     "types": [
       "node",
       "jest",
-      "pify",
-      "./tests/typings/steps"
+      "pify"
     ],
     "esModuleInterop": true,
     "lib": [
