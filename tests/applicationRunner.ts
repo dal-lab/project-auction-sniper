@@ -14,7 +14,8 @@ export default class ApplicationRunner {
   constructor(page: Page) {
     this.page = page;
   }
-  
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async startBiddingIn(auction: FakeAuctionServer) {
     await this.page.goto('http://localhost:8080/');
     await waitForExpect(async () => {

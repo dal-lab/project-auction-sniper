@@ -10,7 +10,9 @@ const USER_ID = 'sniper';
 const CHANNEL_URL = process.env.SENDBIRD_CHANNEL_URL || '';
 const HANDLER_ID = 'auction';
 
-const connect = async ({ setStatus }: { setStatus: Function }): Promise<void> => {
+const connect = async ({ setStatus }: {
+  setStatus: (status: string) => void
+}): Promise<void> => {
   await chatService.connect(APP_ID, USER_ID);
   await chatService.enter(CHANNEL_URL);
   chatService.addListener(HANDLER_ID, {

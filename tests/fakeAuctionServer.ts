@@ -11,7 +11,9 @@ const CHANNEL_HANDLER_ID = 'test';
 export default class FakeAuctionServer {
   entered = false;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   constructor(itemId: string) {
+    //
   }
 
   async connect() {

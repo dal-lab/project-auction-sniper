@@ -2,8 +2,11 @@ import SendBird from 'sendbird';
 
 import pify from 'pify';
 
-const PF = (context: Record<string, any>, f: Function): Function =>
-  pify(f.bind(context), { errorFirst: false });
+type FunctionType = (...args: any[]) => void;
+
+function PF(context: Record<string, any>, f: FunctionType) {
+  return pify(f.bind(context), { errorFirst: false });
+}
 
 export class ChatService {
   async connect(appId: string, userId: string): Promise<void> {
@@ -30,7 +33,7 @@ export class ChatService {
     await PF(channel, channel.exit)();
   }
 
-  addListener(handlerId: string, events: Record<string, Function>): void {
+  addListener(handlerId: string, events: Record<string, FunctionType>): void {
     const sb = SendBird.getInstance();
     const handler = new sb.ChannelHandler();
     Object.entries(events).forEach(([name, f]) => {
